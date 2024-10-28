@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置Mabatis映射文件 -->
+<mapper namespace="com.dao.FilmDAO">
+	<resultMap type="film" id="filmMap">
+		<id property="filmid" column="filmid" />
+		<result property="filmname" column="filmname" />
+		<result property="image" column="image" />
+		<result property="cateid" column="cateid" />
+		<result property="price" column="price" />
+		<result property="recommend" column="recommend" />
+		<result property="thestart" column="thestart" />
+		<result property="theend" column="theend" />
+		<result property="hits" column="hits" />
+		<result property="sellnum" column="sellnum" />
+		<result property="contents" column="contents" />
+		<result property="catename" column="catename" />
+	</resultMap>
+	<!-- 插入语句 DAO通过id调用此配置 -->
+	<insert id="insertFilm" parameterType="film">
+		insert into film(filmid ,
+		filmname , image , cateid , price , recommend ,
+		thestart , theend ,
+		hits , sellnum , contents ) values(#{filmid} ,
+		#{filmname} , #{image} ,
+		#{cateid} , #{price} , #{recommend} ,
+		#{thestart} , #{theend} , #{hits}
+		, #{sellnum} , #{contents} )
+	</insert>
+	<!-- 更新语句 DAO通过id调用此配置 -->
+	<update id="updateFilm" parameterType="film">
+		update film set
+		filmname=#{filmname} , image=#{image} , cateid=#{cateid} ,
+		price=#{price} , recommend=#{recommend} , thestart=#{thestart} ,
+		theend=#{theend} , hits=#{hits} , sellnum=#{sellnum} ,
+		contents=#{contents} where filmid=#{filmid}
+	</update>
+	<!-- 按主键删除 DAO通过id调用此配置 -->
+	<delete id="deleteFilm" parameterType="String">
+		delete from film where
+		filmid = #{filmid}
+	</delete>
+	<!-- 查询全部信息 DAO通过id调用此配置 -->
+	<select id="getAllFilm" resultMap="filmMap">
+		select a.* , b.catename from
+		film a , cate b where 1=1 and a.cateid =
+		b.cateid order by filmid desc
+	</select>
+
+	<select id="getFilmByNews" resultMap="filmMap">
+		select a.* , b.catename
+		from film a , cate b where a.cateid = b.cateid
+		order by filmid desc
+		limit 5
+	</select>
+
+	<select id="getFilmByHot" resultMap="filmMap">
+		select a.* , b.catename
+		from
+		film a , cate b where a.cateid = b.cateid
+		order
+		by hits desc
+		limit 5
+	</select>
+
+	<select id="getFilmByCate" parameterType="String" resultMap="filmMap">
+		select a.* , b.catename from film a , cate b
+		where a.cateid = b.cateid
+		and a.cateid=#{cateid} order by
+		hits desc limit
+		5
+	</select>
+
+	<!-- 按主键查询 DAO通过id调用此配置 -->
+	<select id="getFilmById" parameterType="String" resultMap="filmMap">
+		select a.* , b.catename from film a , cate b where 1=1 and a.cateid =
+		b.cateid and filmid=#{filmid} order by filmid desc
+	</select>
+	<!-- 按条件精确查询 DAO通过id调用此配置 -->
+	<select id="getFilmByCond" parameterType="film" resultMap="filmMap">
+		select a.* , b.catename from film a , cate b where 1=1 and a.cateid =
+		b.cateid
+		<if test="filmname != null and '' != filmname">
+			and a.filmname = #{filmname}
+		</if>
+		<if test="image != null and '' != image">
+			and a.image = #{image}
+		</if>
+		<if test="cateid != null and '' != cateid">
+			and a.cateid = #{cateid}
+		</if>
+		<if test="price != null and '' != price">
+			and a.price = #{price}
+		</if>
+		<if test="recommend != null and '' != recommend">
+			and a.recommend = #{recommend}
+		</if>
+		<if test="thestart != null and '' != thestart">
+			and a.thestart = #{thestart}
+		</if>
+		<if test="theend != null and '' != theend">
+			and a.theend = #{theend}
+		</if>
+		<if test="hits != null and '' != hits">
+			and a.hits = #{hits}
+		</if>
+		<if test="sellnum != null and '' != sellnum">
+			and a.sellnum = #{sellnum}
+		</if>
+		<if test="contents != null and '' != contents">
+			and a.contents = #{contents}
+		</if>
+	</select>
+	<!-- 按条件模糊查询 DAO通过id调用此配置 -->
+	<select id="getFilmByLike" parameterType="film" resultMap="filmMap">
+		select a.* , b.catename from film a , cate b where 1=1 and a.cateid =
+		b.cateid
+		<if test="filmname != null and '' != filmname">
+			and a.filmname like CONCAT('%', CONCAT(#{filmname}, '%'))
+		</if>
+		<if test="image != null and '' != image">
+			and a.image like CONCAT('%', CONCAT(#{image}, '%'))
+		</if>
+		<if test="cateid != null and '' != cateid">
+			and a.cateid like CONCAT('%', CONCAT(#{cateid}, '%'))
+		</if>
+		<if test="price != null and '' != price">
+			and a.price like CONCAT('%', CONCAT(#{price}, '%'))
+		</if>
+		<if test="recommend != null and '' != recommend">
+			and a.recommend like CONCAT('%', CONCAT(#{recommend},
+			'%'))
+		</if>
+		<if test="thestart != null and '' != thestart">
+			and a.thestart like CONCAT('%', CONCAT(#{thestart}, '%'))
+		</if>
+		<if test="theend != null and '' != theend">
+			and a.theend like CONCAT('%', CONCAT(#{theend}, '%'))
+		</if>
+		<if test="hits != null and '' != hits">
+			and a.hits like CONCAT('%', CONCAT(#{hits}, '%'))
+		</if>
+		<if test="sellnum != null and '' != sellnum">
+			and a.sellnum like CONCAT('%', CONCAT(#{sellnum}, '%'))
+		</if>
+		<if test="contents != null and '' != contents">
+			and a.contents like CONCAT('%', CONCAT(#{contents}, '%'))
+		</if>
+	</select>
+</mapper>
+
+

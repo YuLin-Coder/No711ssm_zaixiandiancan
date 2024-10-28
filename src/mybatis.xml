@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias alias="admin" type="com.entity.Admin" />
+		<typeAlias alias="users" type="com.entity.Users" />
+		<typeAlias alias="article" type="com.entity.Article" />
+		<typeAlias alias="cate" type="com.entity.Cate" />
+		<typeAlias alias="city" type="com.entity.City" />
+		<typeAlias alias="cinema" type="com.entity.Cinema" />
+		<typeAlias alias="film" type="com.entity.Film" />
+		<typeAlias alias="cart" type="com.entity.Cart" />
+		<typeAlias alias="orders" type="com.entity.Orders" />
+		<typeAlias alias="details" type="com.entity.Details" />
+		<typeAlias alias="topic" type="com.entity.Topic" />
+	</typeAliases>
+	<mappers>
+		<mapper resource="com/entity/admin.xml" />
+		<mapper resource="com/entity/users.xml" />
+		<mapper resource="com/entity/article.xml" />
+		<mapper resource="com/entity/cate.xml" />
+		<mapper resource="com/entity/city.xml" />
+		<mapper resource="com/entity/cinema.xml" />
+		<mapper resource="com/entity/film.xml" />
+		<mapper resource="com/entity/cart.xml" />
+		<mapper resource="com/entity/orders.xml" />
+		<mapper resource="com/entity/details.xml" />
+		<mapper resource="com/entity/topic.xml" />
+	</mappers>
+</configuration>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

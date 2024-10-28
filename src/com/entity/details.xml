@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置Mabatis映射文件 -->
+<mapper namespace="com.dao.DetailsDAO">
+	<resultMap type="details" id="detailsMap">
+		<id property="detailsid" column="detailsid" />
+		<result property="ordercode" column="ordercode" />
+		<result property="filmid" column="filmid" />
+		<result property="num" column="num" />
+		<result property="price" column="price" />
+		<result property="cityid" column="cityid" />
+		<result property="cinemaid" column="cinemaid" />
+		<result property="viewdate" column="viewdate" />
+		<result property="filmname" column="filmname" />
+		<result property="cityname" column="cityname" />
+		<result property="cinemaname" column="cinemaname" />
+	</resultMap>
+	<!-- 插入语句 DAO通过id调用此配置 -->
+	<insert id="insertDetails" parameterType="details">
+		insert into details(detailsid , ordercode , filmid , num , price , cityid ,
+		cinemaid , viewdate ) values(#{detailsid} , #{ordercode} , #{filmid} ,
+		#{num} , #{price} , #{cityid} , #{cinemaid} , #{viewdate} )
+	</insert>
+	<!-- 更新语句 DAO通过id调用此配置 -->
+	<update id="updateDetails" parameterType="details">
+		update details set ordercode=#{ordercode} , filmid=#{filmid} , num=#{num} ,
+		price=#{price} , cityid=#{cityid} , cinemaid=#{cinemaid} ,
+		viewdate=#{viewdate} where detailsid=#{detailsid}
+	</update>
+	<!-- 按主键删除 DAO通过id调用此配置 -->
+	<delete id="deleteDetails" parameterType="String">
+		delete from details where detailsid = #{detailsid}
+	</delete>
+	<!-- 查询全部信息 DAO通过id调用此配置 -->
+	<select id="getAllDetails" resultMap="detailsMap">
+		select a.* , b.filmname , c.cityname , d.cinemaname from details a , film b
+		, city c , cinema d where 1=1 and a.filmid = b.filmid and a.cityid =
+		c.cityid and a.cinemaid = d.cinemaid order by detailsid desc
+	</select>
+	<!-- 按主键查询 DAO通过id调用此配置 -->
+	<select id="getDetailsById" parameterType="String" resultMap="detailsMap">
+		select a.* , b.filmname , c.cityname , d.cinemaname from details a ,
+		film b , city c , cinema d where 1=1 and a.filmid = b.filmid and
+		a.cityid = c.cityid and a.cinemaid = d.cinemaid and
+		detailsid=#{detailsid} order by detailsid desc
+	</select>
+	<!-- 按条件精确查询 DAO通过id调用此配置 -->
+	<select id="getDetailsByCond" parameterType="details" resultMap="detailsMap">
+		select a.* , b.filmname , c.cityname , d.cinemaname from details a ,
+		film b , city c , cinema d where 1=1 and a.filmid = b.filmid and
+		a.cityid = c.cityid and a.cinemaid = d.cinemaid
+		<if test="ordercode != null and '' != ordercode">
+			and a.ordercode = #{ordercode}
+		</if>
+		<if test="filmid != null and '' != filmid">
+			and a.filmid = #{filmid}
+		</if>
+		<if test="num != null and '' != num">
+			and a.num = #{num}
+		</if>
+		<if test="price != null and '' != price">
+			and a.price = #{price}
+		</if>
+		<if test="cityid != null and '' != cityid">
+			and a.cityid = #{cityid}
+		</if>
+		<if test="cinemaid != null and '' != cinemaid">
+			and a.cinemaid = #{cinemaid}
+		</if>
+		<if test="viewdate != null and '' != viewdate">
+			and a.viewdate = #{viewdate}
+		</if>
+	</select>
+	<!-- 按条件模糊查询 DAO通过id调用此配置 -->
+	<select id="getDetailsByLike" parameterType="details" resultMap="detailsMap">
+		select a.* , b.filmname , c.cityname , d.cinemaname from details a ,
+		film b , city c , cinema d where 1=1 and a.filmid = b.filmid and
+		a.cityid = c.cityid and a.cinemaid = d.cinemaid
+		<if test="ordercode != null and '' != ordercode">
+			and a.ordercode like CONCAT('%', CONCAT(#{ordercode}, '%'))
+		</if>
+		<if test="filmid != null and '' != filmid">
+			and a.filmid like CONCAT('%', CONCAT(#{filmid}, '%'))
+		</if>
+		<if test="num != null and '' != num">
+			and a.num like CONCAT('%', CONCAT(#{num}, '%'))
+		</if>
+		<if test="price != null and '' != price">
+			and a.price like CONCAT('%', CONCAT(#{price}, '%'))
+		</if>
+		<if test="cityid != null and '' != cityid">
+			and a.cityid like CONCAT('%', CONCAT(#{cityid}, '%'))
+		</if>
+		<if test="cinemaid != null and '' != cinemaid">
+			and a.cinemaid like CONCAT('%', CONCAT(#{cinemaid}, '%'))
+		</if>
+		<if test="viewdate != null and '' != viewdate">
+			and a.viewdate like CONCAT('%', CONCAT(#{viewdate}, '%'))
+		</if>
+	</select>
+</mapper>
+
+

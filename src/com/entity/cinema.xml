@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置Mabatis映射文件 -->
+<mapper namespace="com.dao.CinemaDAO">
+	<resultMap type="cinema" id="cinemaMap">
+		<id property="cinemaid" column="cinemaid" />
+		<result property="cinemaname" column="cinemaname" />
+		<result property="cityid" column="cityid" />
+		<result property="address" column="address" />
+		<result property="contact" column="contact" />
+		<result property="memo" column="memo" />
+		<result property="cityname" column="cityname" />
+	</resultMap>
+	<!-- 插入语句 DAO通过id调用此配置 -->
+	<insert id="insertCinema" parameterType="cinema">
+		insert into cinema(cinemaid , cinemaname , cityid , address , contact , memo
+		) values(#{cinemaid} , #{cinemaname} , #{cityid} , #{address} ,
+		#{contact} , #{memo} )
+	</insert>
+	<!-- 更新语句 DAO通过id调用此配置 -->
+	<update id="updateCinema" parameterType="cinema">
+		update cinema set cinemaname=#{cinemaname} , cityid=#{cityid} ,
+		address=#{address} , contact=#{contact} , memo=#{memo} where
+		cinemaid=#{cinemaid}
+	</update>
+	<!-- 按主键删除 DAO通过id调用此配置 -->
+	<delete id="deleteCinema" parameterType="String">
+		delete from cinema where cinemaid = #{cinemaid}
+	</delete>
+	<!-- 查询全部信息 DAO通过id调用此配置 -->
+	<select id="getAllCinema" resultMap="cinemaMap">
+		select a.* , b.cityname from cinema a , city b where 1=1 and a.cityid =
+		b.cityid order by cinemaid desc
+	</select>
+	<!-- 按主键查询 DAO通过id调用此配置 -->
+	<select id="getCinemaById" parameterType="String" resultMap="cinemaMap">
+		select a.* , b.cityname from cinema a , city b where 1=1 and a.cityid
+		= b.cityid and cinemaid=#{cinemaid} order by cinemaid desc
+	</select>
+	<!-- 按条件精确查询 DAO通过id调用此配置 -->
+	<select id="getCinemaByCond" parameterType="cinema" resultMap="cinemaMap">
+		select a.* , b.cityname from cinema a , city b where 1=1 and a.cityid
+		= b.cityid
+		<if test="cinemaname != null and '' != cinemaname">
+			and a.cinemaname = #{cinemaname}
+		</if>
+		<if test="cityid != null and '' != cityid">
+			and a.cityid = #{cityid}
+		</if>
+		<if test="address != null and '' != address">
+			and a.address = #{address}
+		</if>
+		<if test="contact != null and '' != contact">
+			and a.contact = #{contact}
+		</if>
+		<if test="memo != null and '' != memo">
+			and a.memo = #{memo}
+		</if>
+	</select>
+	<!-- 按条件模糊查询 DAO通过id调用此配置 -->
+	<select id="getCinemaByLike" parameterType="cinema" resultMap="cinemaMap">
+		select a.* , b.cityname from cinema a , city b where 1=1 and a.cityid
+		= b.cityid
+		<if test="cinemaname != null and '' != cinemaname">
+			and a.cinemaname like CONCAT('%', CONCAT(#{cinemaname}, '%'))
+		</if>
+		<if test="cityid != null and '' != cityid">
+			and a.cityid like CONCAT('%', CONCAT(#{cityid}, '%'))
+		</if>
+		<if test="address != null and '' != address">
+			and a.address like CONCAT('%', CONCAT(#{address}, '%'))
+		</if>
+		<if test="contact != null and '' != contact">
+			and a.contact like CONCAT('%', CONCAT(#{contact}, '%'))
+		</if>
+		<if test="memo != null and '' != memo">
+			and a.memo like CONCAT('%', CONCAT(#{memo}, '%'))
+		</if>
+	</select>
+</mapper>
+
+
